@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>디지털전략팀 지원 포트폴리오</title>
+    <title>스위트북</title>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
@@ -304,6 +304,8 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+
+            cursor: pointer;
         }
 
         .project-card:hover {
@@ -314,16 +316,19 @@
 
         .project-img-placeholder {
             height: 220px;
-            background: #1a2c57;
-            background: linear-gradient(45deg, #1a2c57 0%, #132547 100%);
+            background-color: #060913;
+            background-image: radial-gradient(circle at 25% 50%, rgba(50, 255, 255, 0.05) 1px, rgba(0,0,0,0) 1px),
+                            radial-gradient(circle at 75% 50%, rgba(255, 50, 255, 0.05) 1px, rgba(0,0,0,0) 1px);
+            background-size: 40px 40px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-        }
+                }
         .project-img-placeholder i {
             font-size: 4rem;
             color: #2b4787;
+            transition: opacity 0.3s ease;
         }
         .project-tag {
             position: absolute;
@@ -336,6 +341,7 @@
             border-radius: 6px;
             font-weight: 600;
             letter-spacing: 0.5px;
+            z-index: 4;
         }
 
         .project-content {
@@ -492,6 +498,88 @@
                 display: block;
             }
         }
+
+        /* 이미지 팝업 */
+        .zoom-prompt {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 14, 26, 0.85);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 3;
+        }
+        .zoom-prompt i {
+            font-size: 2rem;
+            color: #4a9eff;
+            text-shadow: 0 0 10px rgba(74, 158, 255, 0.6);
+            animation: bounce 1.5s infinite;
+        }
+
+        .zoom-prompt span {
+            color: #ffffff;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        .project-card:hover .zoom-prompt {
+            opacity: 1;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* --- 팝업 --- */
+        .project-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .modal-content img {
+            max-height: 85vh;
+            width: auto;
+            display: block;
+            border-radius: 8px;
+            border: 1px solid rgba(74, 158, 255, 0.4);
+            box-shadow: 0 0 30px rgba(0, 150, 255, 0.3);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #4a9eff;
+        }
     </style>
 </head>
 <body>
@@ -510,11 +598,12 @@
 
     <!-- Header -->
     <header>
-        <div class="badge-role">미래에셋자산운용 디지털전략본부 디지털전략팀 지원</div>
+        <div class="badge-role">스위트북 바이브코딩 풀스택 개발자 지원</div>
         <h1>일상 속 문제를 지나치지 않고<br/>
-            <span class ="typing-container"><span class="typing-text">구현하는 디지털 전략가</span></span>
+            <span class ="typing-container"><span class="typing-text">AI와 코드로 실현하는 풀스택 개발자</span></span>
         </h1>
-        <p>인프라부터 시스템 운영, 데이터 처리까지 직접 부딪히며 실무 역량을 차근차근 다져왔습니다.</p>
+        <p>인프라부터 시스템 운영, 데이터 처리까지 직접 부딪히며 실무 역량을 차근차근 다져왔습니다.<br>
+            AI를 활용해 아이디어를 빠르게 구현하는 것을 즐깁니다.</p>
         <div class="hero-buttons">
             <a href="#projects" class="btn-primary"><i class="fa-solid fa-code"></i> 프로젝트 보러가기</a>
             <a href="#career" class="btn-secondary"><i class="fa-solid fa-user-check"></i> 주요 경력 보기</a>
@@ -545,99 +634,143 @@
 
     <!-- Project Experience Section -->
     <section id="projects">
-        <h2 class="section-title">개인 프로젝트</h2>
-        <div class="grid-projects">
-            <!-- Project 1 -->
-            <div class="project-card">
-                <div class="project-img-placeholder">
-                    <span class ="project-tag">PoC 시스템화 및 아키텍처 고도화</span>
-                    <i class="fa-solid fa-gamepad"></i>
-                </div>
-                <div class="project-content">
-                    <div class="project-text-area">
-                        <h3>game_schedule</h3>
-                        <div class="project-desc-block">
-                            <p><strong>[문제 상황]</strong> Google Apps Script 활용 시 DB 수정 및 데이터 호출 지연 발생. 프론트 우선 수정 방식을 적용했으나 낙관적 업데이트 중 데이터 불일치 및 동기화 충돌 발생.</p>
-                            <p><strong>[아키텍처 개선]</strong> 빠른 로딩과 데이터 충돌 최소화에 초점을 맞춰 LocalStorage와 원격 DB를 결합한 하이브리드 데이터 동기화 구조 설계.</p>
-                            <p><strong>[성과]</strong> 사용자 체감 지연 속도를 극적으로 단축하고 동기화 정합성을 확보하여 실사용 인터페이스 안정화.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-bottom-area">
-                    <div class="project-links">
-                        <a href="https://jihye21.github.io/game_schedule/" target="_blank" class="btn-proj-link btn-demo"><i class="fa-solid fa-arrow-up-right-from-square"></i>Demo</a>
+    <h2 class="section-title">Projects</h2>
+    
+    <!-- 메인 프로젝트 -->
+    <div class="grid-projects">
+        
+        <!-- Java Spring Boot 일정 추천 시스템 -->
+        <div class="project-card" style="grid-column: 1 / -1;">
+            <div class="project-img-placeholder" style="height: 160px;">
+                <span class="project-tag">백엔드 &middot; 결제 및 실시간 아키텍처</span>
+                <i class="fa-solid fa-server"></i>
+            </div>
+            <div class="project-content">
+                <div class="project-text-area">
+                    <h3>Java Spring Boot 일정 추천 시스템 (3인 팀)</h3>
+                    <div class="project-desc-block">
+                        <p><strong>[개요]</strong> 사용자가 장소를 선택하고 실제 메뉴를 결제하며, 그룹원들과 실시간 소통할 수 있는 종합 일정 추천 플랫폼 구축.</p>
+                        <p><strong>[핵심 구현]</strong> Socket 통신 기반 실시간 그룹 채팅 및 인스타그램 API를 활용한 인기 핫플레이스 탐색 연동.</p>
+                        <p><strong>[문제 해결]</strong> 인스타그램 API 연동 과정에서 초기 데이터 수신에 문제를 겪었으나, 다각도의 반복 테스트를 거쳐 API 호출 플로우를 구축하고 데이터 파싱 성공.</p>
                     </div>
                 </div>
             </div>
-
-            <!-- Project 2 -->
-            <div class="project-card">
-                <div class="project-img-placeholder">
-                    <span class="project-tag">사용자 인터랙션 &middot; 상태 관리</span>
-                    <i class="fa-solid fa-piggy-bank"></i>
-                </div>
-                <div class="project-content">
-                    <div class="project-text-area">    
-                        <h3>wish_keyring</h3>
-                        <div class="project-desc-block">
-                            <p><strong>[기획 배경]</strong> 어린이의 올바른 소비 및 저축 습관 형성을 위한 직관적 인터랙티브 목표 저축 웹 서비스 구축.</p>
-                            <p><strong>[구현 포인트]</strong> LocalStorage를 활용해 목표 데이터를 즉각 저장 및 로드하고, 모바일 기울기 센서 및 마우스 움직임에 실시간 반응하는 동적 UI/UX 적용.</p>
-                            <p><strong>[성과]</strong> 직관적 피드백 루프를 통한 사용자 행동 유도 및 LocalStorage 실무적 장단점 체득.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-bottom-area">
-                    <div class="project-links">
-                        <a href="https://jihye21.github.io/wish_keyring/" target="_blank" class="btn-proj-link btn-demo"><i class="fa-solid fa-arrow-up-right-from-square"></i>Demo</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 3 -->
-            <div class="project-card" style="grid-column: 1 / -1;">
-                <div class="project-img-placeholder" style="height: 160px;">
-                    <span class="project-tag">데이터 파이프라인 &middot; 프로세스 표준화</span>
-                    <i class="fa-solid fa-network-wired"></i>
-                </div>
-                <div class="project-content">
-                    <div class="project-text-area">
-                        <h3>ig_meet_copy</h3>
-                        <div class="project-desc-block">
-                            <p><strong>[기획 배경]</strong> 그룹 링크 참여 시 복잡하고 번거로운 인스타그램 프로필 태그 대량 복사 과정을 일괄 처리하는 사용자 편의성 중심 서비스 기획.</p>
-                            <p><strong>[데이터 처리 로직]</strong> 무겁고 복잡한 RDBMS 대신 Google Sheet와 Google Apps Script를 연동하여 가볍고 빠른 실시간 데이터 흐름 구현. 프론트엔드 선반영 기법을 적용해 사용자 대기 시간 원천 차단.</p>
-                            <p><strong>[성과]</strong> 인프라 구축 비용 없이 신속한 배포가 가능한 실용적 데이터 연동 구조 완성 및 고도화 프로젝트 기술 발판 마련.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-bottom-area">
-                    <div class="project-links">
-                        <a href="https://jihye21.github.io/ig_meet_copy/" target="_blank" class="btn-proj-link btn-demo"><i class="fa-solid fa-arrow-up-right-from-square"></i>Demo</a>
-                    </div>
+            <div class="project-bottom-area">
+                <div class="project-links">
+                    <a href="https://drive.google.com/file/d/1fRiWTvyVz1oxLR1FrCSVN1G1B-xNBb1v/view?usp=drive_link" target="_blank" style="font-size: 0.9rem;" class="btn-proj-link btn-demo"><i class="fa-solid fa-video"></i> Instagram API</a>
+                    <a href="https://drive.google.com/file/d/1fRiWTvyVz1oxLR1FrCSVN1G1B-xNBb1v/view?usp=sharing&t=44.118" target="_blank" style="font-size: 0.9rem;" class="btn-proj-link btn-demo"><i class="fa-solid fa-video"></i> Web Socket</a>
+                    <a href="https://drive.google.com/file/d/1OlF7MOOHc3lweu9F0TILUt1DQPW9qVl_/view?usp=sharing" target="_blank" style="font-size: 0.9rem;" class="btn-proj-link btn-demo"><i class="fa-solid fa-video"></i> Demo Video</a>
                 </div>
             </div>
         </div>
-    </section>
+
+        <!-- money_box -->
+        <div class="project-card">
+            <div class="project-img-placeholder hover-effect" onclick="openModal('images/money_box_main.png')">
+                <div class ="default-view">
+                    <span class="project-tag">풀스택 &middot; Firebase &middot; 자동화 로직</span>
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <div class="zoom-prompt">
+                    <i class="fa-solid fa-magnifying-glass-plus"></i>
+                    <span>click to image</span>
+                </div>
+            </div>
+            <div class="project-content">
+                <div class="project-text-area">
+                    <h3>money_box</h3>
+                    <div class="project-desc-block">
+                        <p><strong>[기획 배경]</strong> 노션 수동 저축 관리의 번거로움을 해소하고 저축 목표와 실적을 직관적으로 시각화하기 위한 풀스택 자동화 웹 서비스 개발.</p>
+                        <p><strong>[아키텍처 및 구현]</strong> React, Vite, JavaScript 기반 프론트엔드 구축. Firebase Auth 및 Firestore를 연동하여 사용자의 저축 데이터를 실시간 안전하게 저장.</p>
+                        <p><strong>[비즈니스 로직 & 성과]</strong> 월 저축액 설정 시 일·주간 목표가 역으로 자동 계산되는 양방향 연동 알고리즘을 구현하여 수동 계산 시간을 0초로 단축.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="project-bottom-area">
+                <div class="project-links">
+                    <a href="https://jihye21.github.io/money_box/" target="_blank" class="btn-proj-link btn-demo"><i class="fa-solid fa-arrow-up-right-from-square"></i> Demo</a>
+                    <a href="https://github.com/jihye21/money_box" target="_blank" class="btn-proj-link btn-demo"><i class="fa-brands fa-github"></i> GitHub</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- game_schedule -->
+        <div class="project-card">
+            <div class="project-card">
+            <div class="project-img-placeholder hover-effect" onclick="openModal('images/game_schedule_main.png')">
+                <i class="fa-solid fa-gamepad"></i>
+                <div class="zoom-prompt">
+                    <i class="fa-solid fa-magnifying-glass-plus"></i>
+                    <span>click to image</span>
+                </div>
+            </div>
+            <div class="project-content">
+                <div class="project-text-area">
+                    <h3>game_schedule</h3>
+                    <div class="project-desc-block">
+                        <p><strong>[문제 상황]</strong> Google Apps Script 활용 시 DB 수정 및 데이터 호출 지연 발생. 낙관적 업데이트 중 데이터 불일치 및 동기화 충돌 발생.</p>
+                        <p><strong>[아키텍처 개선]</strong> 빠른 로딩과 데이터 충돌 최소화에 초점을 맞춰 LocalStorage와 원격 DB를 결합한 하이브리드 데이터 동기화 구조 설계.</p>
+                        <p><strong>[성과]</strong> 사용자 체감 지연 속도를 극적으로 단축하여 실사용 인터페이스 안정화.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="project-bottom-area">
+                <div class="project-links">
+                    <a href="https://jihye21.github.io/game_schedule/" target="_blank" class="btn-proj-link btn-demo"><i class="fa-solid fa-arrow-up-right-from-square"></i> Demo</a>
+                    <a href="https://jihye21.github.io/game_schedule/parent.html?group=family_1787228676859" target="_blank" class="btn-proj-link btn-demo"><i class="fa-solid fa-user-gear"></i> 관리자 Demo</a>
+                    <a href="https://jihye21.github.io/game_schedule/child.html?family=family_1787228676859&group=group_1787228676859" target="_blank" class="btn-proj-link btn-demo"><i class="fa-solid fa-child"></i> 자녀 Demo</a>
+                    <a href="https://github.com/jihye21/game_schedule" target="_blank" class="btn-proj-link btn-demo"><i class="fa-brands fa-github"></i> GitHub</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 기타 프로젝트 섹션 -->
+    <div class="sub-projects-container" style="margin-top: 40px;">
+        <h3 style="font-size: 1.2rem; margin-bottom: 20px; color: var(--text-color, #333);">기타 개인 프로젝트</h3>
+        <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.8;">
+            <li>
+                <strong>wish_keyring:</strong> 어린이 소비 습관 형성을 위한 인터랙티브 저축 웹 서비스 개발 (모바일 기울기 센서 및 마우스 인터랙션 연동, LocalStorage 활용)
+                <a href="https://jihye21.github.io/wish_keyring/" target="_blank" style="font-size: 0.9rem;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Demo</a>
+                <a href="https://github.com/jihye21/wish_keyring" target="_blank" style="font-size: 0.9rem;"><i class="fa-brands fa-github"></i> GitHub</a>
+            </li>
+            <li>
+                <strong>ig_meet_copy:</strong> Google Sheet와 Apps Script를 연동한 실시간 인스타그램 프로필 태그 일괄 복사 웹 개발 (프론트엔드 선반영 기법 적용)
+                <a href="https://jihye21.github.io/ig_meet_copy/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Demo</a>    
+                <a href="https://jihye21.github.io/ig_meet_copy/event.html?id=b829b3b9-7582-4a2d-8266-b24147150f15" target="_blank" style="font-size: 0.9rem;"><i class="fa-solid fa-users"></i> 모임 Demo</a>
+                <a href="https://github.com/jihye21/ig_meet_copy" target="_blank" style="font-size: 0.9rem;"><i class="fa-brands fa-github"></i> GitHub</a>
+            </li>
+        </ul>
+    </div>
+</section>
 
     <!-- Tech Stack Section -->
     <section id="stack">
         <h2 class="section-title">Tech Stack</h2>
         <div class="tech-container">
-            <span class="badge-tech"><i class="fa-brands fa-js"></i> JavaScript</span>
-            <span class="badge-tech"><i class="fa-solid fa-code"></i> HTML / CSS</span>
-            <span class="badge-tech"><i class="fa-brands fa-aws"></i> AWS (Lightsail)</span>
-            <span class="badge-tech"><i class="fa-solid fa-bolt"></i> Google Apps Script</span>
-            <span class="badge-tech"><i class="fa-solid fa-file-excel"></i> Google Sheet</span>
-            <span class="badge-tech"><i class="fa-solid fa-database"></i> LocalStorage (Hybrid Sync)</span>
-            <span class="badge-tech"><i class="fa-solid fa-lock"></i> AES-CCM / Key Store</span>
-            <span class="badge-tech"><i class="fa-solid fa-globe"></i> i18n</span>        
-        </div>
+        <span class="badge-tech"><i class="fa-brands fa-js"></i> JavaScript</span>
+        <span class="badge-tech"><i class="fa-solid fa-code"></i> HTML / CSS</span>
+        <span class="badge-tech"><i class="fa-brands fa-aws"></i> AWS (Lightsail)</span>
+        <span class="badge-tech"><i class="fa-brands fa-react"></i> React + Vite</span>
+        <span class="badge-tech"><i class="fa-solid fa-fire"></i> Firebase</span>
+        <span class="badge-tech"><i class="fa-solid fa-leaf"></i> Spring Boot</span>
+        <span class="badge-tech"><i class="fa-solid fa-database"></i> MyBatis</span>
+    </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2026 Digital Strategy Portfolio. All rights reserved.</p>
+        <p>&copy; 2026 Jihye's Portfolio. All rights reserved.</p>
     </footer>
 
+    <!-- 팝업 -->
+    <div id="projectModal" class="project-modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <img src="" alt="Expanded View" id="modalImg">
+        </div>
+    </div>
     <script>
 
         const navToggle = document.getElementById('navToggle');
@@ -661,7 +794,17 @@
             });
         });
 
-        
+        function openModal(imgSrc) {
+            const modal = document.getElementById('projectModal');
+            const modalImg = document.getElementById('modalImg');
+            modalImg.src = imgSrc;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('projectModal');
+            modal.classList.remove('active');
+        }
     </script>
 </body>
 </html>
