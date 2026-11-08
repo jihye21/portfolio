@@ -634,7 +634,6 @@
 
     <!-- Header -->
     <header>
-        <div class="badge-role">Jihye's Portfolio</div>
         <h1>일상 속 문제를 지나치지 않고<br/>
             <span class ="typing-container"><span class="typing-text">AI와 코드로 실현하는 개발자</span></span>
         </h1>
@@ -685,6 +684,57 @@
     
     <!-- 메인 프로젝트 -->
     <div class="grid-projects">
+
+        <!-- 대용량 트래픽 대응 티켓 예매 시스템 -->
+        <div class="project-card" style="grid-column: 1 / -1;">
+            <div class="project-img-placeholder" style="height: 160px;">
+                <span class="project-tag">백엔드 &middot; 동시성 제어</span>
+                <i class="fa-solid fa-server"></i>
+            </div>
+            <div class="project-content">
+                <div class="project-text-area">
+                    <h3>ticket-ing: 100명 좌석 예매 동시성 테스트</h3>
+                    <div class="project-desc-block">
+                        <p><strong>[상황]</strong> 100명의 유저가 하나의 동일한 티켓에 동시 요청을 보낼 때, 데이터 정합성이 깨져 재고가 음수가 되거나 복수 예매 위험 발생.</p>
+                        <p><strong>[과제]</strong> 초과 예매로 인한 데이터 부정 정합성을 방지하고 최종 재고 0개 유지 및 단 한 명 성공의 무결성 증명 필요.</p>
+                        <p><strong>[해결]</strong> JUnit5 환경에서 ExecuterService로 100개의 멀티스레드 풀을 생성하고 CountDownLatch를 활용하여 100명의 가상 유저가 동일한 시점에 요청을 하도록 동시성 메커니즘을 설계<br>
+                                                   동시성 제어를 위해 Redisson 분산 락을 도입하여 진입 단계에서 순차적 격리를 수행.</p>
+                        <p><strong>[결과]</strong> 분산 락을 통해 멀티스레드 환경에서도 데이터 경합을 제어, 최종 티켓이 0이 되며 데이터 무결성 보장.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="project-bottom-area">
+                <div class="project-links">
+                    <a href="https://drive.google.com/file/d/13o51nQs2QtkOOjVXydC4A3JyJk67ce9G/view?usp=drive_link" target="_blank" style="font-size: 0.9rem;" class="btn-proj-link btn-demo"><i class="fa-solid fa-video"></i> 동시성 테스트 로그</a>
+                    <a href="https://github.com/jihye21/ticket-ing/blob/124f5688fd61446a5b8d97d948c2675d01af3a33/src/test/java/com/example/ticket/TicketApplicationTests.java" target="_blank" style="font-size: 0.9rem;" class="btn-proj-link btn-demo"><i class="fa-solid fa-video"></i> 테스트 코드</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card" style="grid-column: 1 / -1;">
+            <div class="project-img-placeholder" style="height: 160px;">
+                <span class="project-tag">아키텍처 &middot; 대용량 트래픽</span>
+                <i class="fa-solid fa-network-wired"></i>
+            </div>
+            <div class="project-content">
+                <div class="project-text-area">
+                    <h3>Ticket-ing : 1,000명 VU 기반 대량 트래픽 제어</h3>
+                    <div class="project-desc-block">
+                        <p><strong>[S / 상황]</strong> 단시간에 1,000명의 가상 유저가 총 15,000건 이상의 티켓 요청을 보내는 트래픽 발생.</p>
+                        <p><strong>[T / 과제]</strong> 서버 확장 없이, 스레드 풀 고갈 및 DB 커넥션 풀 마비로 인한 전체 서버 다운 병목 방어 필요.</p>
+                        <p><strong>[A / 행동]</strong> 모든 트래픽을 RDB로 직접 보내지 않고 Redis Sorted Set 기반의 대기열 처리. Spring Scheduler를 구현하여 초당 100명씩 순차적으로 진입시키는 대기열 설계.</p>
+                        <p><strong>[R / 결과]</strong> 총 15,341건의 대규모 요청 중 14,861건의 처리를 성공시켰으며 308.55 RPS를 안정적으로 소화. <br>
+                                                       평균 응답 속도 942.87ms를 유지하고 상위 95% 구간인 p(95) 지표를 1.91s로 방어하며 에러율을 3.12% 수준으로 통제. </p>
+                    </div>
+                </div>
+            </div>
+            <div class="project-bottom-area">
+                <div class="project-links">
+                    <a href="https://docs.google.com/document/d/16Hs79SQRQWpVEGPbr5q5wyCrmNY-iMU_0phZLj0zM9Y/edit?usp=drive_link" target="_blank" style="font-size: 0.9rem;" class="btn-proj-link btn-demo"><i class="fa-solid fa-video"></i> report</a>
+                    <a href="https://github.com/jihye21/ticket-ing/blob/main/ticket-load-test.js" target="_blank" style="font-size: 0.9rem;" class="btn-proj-link btn-demo"><i class="fa-brands fa-github"></i> 부하 테스트 스크립트</a>
+                </div>
+            </div>
+        </div>
         
         <!-- Java Spring Boot 일정 추천 시스템 -->
         <div class="project-card" style="grid-column: 1 / -1;">
